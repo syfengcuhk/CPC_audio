@@ -12,7 +12,7 @@ from copy import deepcopy
 import random
 import psutil
 import sys
-
+sys.path.append("/tudelft.net/staff-bulk/ewi/insy/SpeechLab/siyuanfeng/software/CPC_audio")
 import cpc.criterion as cr
 import cpc.model as model
 import cpc.utils.misc as utils
@@ -347,6 +347,8 @@ def main(args):
         if not os.path.isdir(args.pathCheckpoint):
             os.mkdir(args.pathCheckpoint)
         args.pathCheckpoint = os.path.join(args.pathCheckpoint, "checkpoint")
+        with open(args.pathCheckpoint + "_args.json", 'w') as file:
+            json.dump(vars(args), file, indent=2)
 
     scheduler = None
     if args.schedulerStep > 0:
