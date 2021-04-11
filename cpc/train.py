@@ -415,7 +415,7 @@ def parseArgs(argv):
     group_db.add_argument('--ignore_cache', action='store_true',
                           help='Activate if the dataset has been modified '
                           'since the last training session.')
-    group_db.add_argument('--max_size_loaded', type=int, default=4000000000,
+    group_db.add_argument('--max_size_loaded', type=int, default=50000000,
                           help='Maximal amount of data (in byte) a dataset '
                           'can hold in memory at any given time')
     group_supervised = parser.add_argument_group(
