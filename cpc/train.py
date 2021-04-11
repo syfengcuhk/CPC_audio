@@ -294,7 +294,8 @@ def main(args):
                                 seqVal,
                                 phoneLabels,
                                 len(speakers),
-                                nProcessLoader=args.n_process_loader)
+                                nProcessLoader=args.n_process_loader,
+                                MAX_SIZE_LOADED=args.max_size_loaded)
     print("Validation dataset loaded")
     print("")
 
@@ -433,8 +434,8 @@ def parseArgs(argv):
     group_save = parser.add_argument_group('Save')
     group_save.add_argument('--pathCheckpoint', type=str, default=None,
                             help="Path of the output directory.")
-    group_save.add_argument('--logging_step', type=int, default=1000)
-    group_save.add_argument('--save_step', type=int, default=5,
+    group_save.add_argument('--logging_step', type=int, default=200)
+    group_save.add_argument('--save_step', type=int, default=1,
                             help="Frequency (in epochs) at which a checkpoint "
                             "should be saved")
 
