@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 import ABX.abx_group_computation as abx_g
 import ABX.abx_iterators as abx_it
+sys.path.append("/tudelft.net/staff-bulk/ewi/insy/SpeechLab/siyuanfeng/software/CPC_audio")
 from cpc.dataset import findAllSeqs
 from cpc.feature_loader import buildFeature, FeatureModule, loadModel
 

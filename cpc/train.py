@@ -165,14 +165,16 @@ def run(trainDataset,
         pathCheckpoint,
         optimizer,
         scheduler,
-        logs):
+        logs,args):
 
     print(f"Running {nEpoch} epochs")
     startEpoch = len(logs["epoch"])
     bestAcc = 0
     bestStateDict = None
     start_time = time.time()
-
+    if args.stop_epoch < nEpoch:
+        print("Will stop early at the %d th epoch" % args.stop_epoch)
+        nEpoch = args.stop_epoch
     for epoch in range(startEpoch, nEpoch):
 
         print(f"Starting epoch {epoch}")
@@ -237,7 +239,7 @@ def main(args):
                         forbiddenAttr={"nGPU", "pathCheckpoint",
                                        "debug", "restart", "world_size",
                                        "n_nodes", "node_id", "n_gpu_per_node",
-                                       "max_size_loaded"})
+                                       "max_size_loaded", "stop_epoch"})
             args.load, loadOptimizer = [data], True
             args.loadCriterion = True
 
@@ -387,7 +389,7 @@ def main(args):
         args.pathCheckpoint,
         optimizer,
         scheduler,
-        logs)
+        logs,args)
 
 
 def parseArgs(argv):
@@ -438,6 +440,9 @@ def parseArgs(argv):
     group_save.add_argument('--save_step', type=int, default=1,
                             help="Frequency (in epochs) at which a checkpoint "
                             "should be saved")
+    group_save.add_argument('--stop_epoch', type=int, default=1000,
+                            help="Early stop training at a given epoch")
+
 
     group_load = parser.add_argument_group('Load')
     group_load.add_argument('--load', type=str, default=None, nargs='*',
@@ -485,6 +490,14 @@ def parseArgs(argv):
         f"number of GPU asked: {args.nGPU}," \
         f"number GPU detected: {torch.cuda.device_count()}"
     print(f"Let's use {args.nGPU} GPUs!")
+    print(f"Machine: {os.uname()[1]}")
+    print(f"GPU information: {torch.cuda.get_device_name()}")
+
+    if args.stop_epoch < 0:
+        print("--stop_epoch has negative number")
+        sys.exit()
+    elif args.stop_epoch < args.nEpoch: 
+        print("Early stop at epoch %d" % args.stop_epoch)
 
     if args.arMode == 'no_ar':
         args.hiddenGar = args.hiddenEncoder
