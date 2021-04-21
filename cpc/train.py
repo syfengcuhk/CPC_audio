@@ -239,7 +239,8 @@ def main(args):
                         forbiddenAttr={"nGPU", "pathCheckpoint",
                                        "debug", "restart", "world_size",
                                        "n_nodes", "node_id", "n_gpu_per_node",
-                                       "max_size_loaded", "stop_epoch"})
+                                       "max_size_loaded", "stop_epoch",
+                                       "batchSizeGPU"})
             args.load, loadOptimizer = [data], True
             args.loadCriterion = True
 
@@ -492,7 +493,8 @@ def parseArgs(argv):
     print(f"Let's use {args.nGPU} GPUs!")
     print(f"Machine: {os.uname()[1]}")
     print(f"GPU information: {torch.cuda.get_device_name()}")
-
+    available_gpus = [torch.cuda.device(i) for i in range(torch.cuda.device_count())]
+    print(available_gpus)
     if args.stop_epoch < 0:
         print("--stop_epoch has negative number")
         sys.exit()
