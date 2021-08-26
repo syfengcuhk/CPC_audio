@@ -24,14 +24,15 @@ train_size="600"
 #subset_name="_subset900utt"
 #subset_name="_subset3600utt"
 #subset_name="_subset7200utt"
-subset_name="_subset14400utt"
-#subset_name=""
+#subset_name="_subset14400utt"
+subset_name=""
 
 max_size_loaded="50000000"
 
 #eval_epoch=112
 #eval_epoch=92
 eval_epoch=199
+#eval_epoch=150
 
 #~~~~Select one of the following lines~~~~~~#
 #PATH_CHECKPOINT=egs/libri-light/exp/train_unlab_${train_size}${subset_name}_${max_size_loaded}_2GPU/checkpoint_${eval_epoch}.pt

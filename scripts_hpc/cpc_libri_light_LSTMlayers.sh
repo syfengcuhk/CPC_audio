@@ -6,19 +6,20 @@
 # The default Quality of Service is the 'short' QoS (maximum run time: 4 hours)
 #SBATCH --qos=long
 # The default run (wall-clock) time is 1 minute
-#SBATCH --time=160:00:00
+#SBATCH --time=166:00:00
 # The default number of parallel tasks per job is 1
 #SBATCH --ntasks=1
 # Request 1 CPU per active thread of your program (assume 1 unless you specifically set this)
 # The default number of CPUs per task is 1 (note: CPUs are always allocated per 2)
-#SBATCH --cpus-per-task=6
+#SBATCH --cpus-per-task=4
 # The default memory per node is 1024 megabytes (1GB) (for multiple tasks, specify --mem-per-cpu instead)
 #SBATCH --mem=8G
 # Set mail type to 'END' to receive a mail when the job finishes
 # Do not enable mails when submitting large numbers (>20) of jobs at once
 #SBATCH --gres=gpu:2
 #SBATCH --mail-type=ALL
-#SBATCH --nodelist=awi02
+#SBATCH --nodelist=cor1
+##SBATCH --nodelist=awi02
 ##SBATCH --exclude=wis1 # do not use Tesla P100-PCIE-16GB
 ##SBATCH --exclude=insy11,insy12,insy13,insy14,ewi1,ewi2,wis1 # exclude 1080 Ti cards and Tesla P100-PCIE-16GB
 
@@ -27,8 +28,8 @@ train_set=600
 #subset="_subset900utt" # 20 hours (200 epochs)#""
 #subset="_subset3600utt" # 50 hours #""
 #subset="_subset7200utt" # 100 hours#""
-subset="_subset14400utt" # 200 hours""
-#subset="" # can't be done within a long job -> unlab-600 full set
+#subset="_subset14400utt" # 200 hours""
+subset="" # can't be done within a long job -> unlab-600 full set
 
 
 #subset_val="_first500"
@@ -55,7 +56,8 @@ PATH_AUDIO_FILES=/tudelft.net/staff-bulk/ewi/insy/SpeechLab/siyuanfeng/libri-lig
 #PATH_AUDIO_FILES=/tudelft.net/staff-bulk/ewi/insy/SpeechLab/corpora/english/LibriSpeech/train-clean-${train_size}/
 nGPU=2
 
-lstm_layers=2
+#lstm_layers=2
+lstm_layers=3
 PATH_CHECKPOINT_DIR=egs/libri-light/exp/tune_LSTMlayers/train_unlab_${train_set}${subset}${lstm_layers}${debug_flag}_${max_size_loaded}${lr_suffix}_${nGPU}GPU/
 mkdir -p $PATH_CHECKPOINT_DIR || exit 1
 TRAINING_SET=egs/libri-light/train_unlab_${train_set}${subset}/train_split.txt #librispeech/train_clean_${train_size}_tr_cv/train_split${subset}.txt
